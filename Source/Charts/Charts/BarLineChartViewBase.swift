@@ -198,7 +198,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         }
-        
+
         xAxisRenderer.renderAxisLine(context: context)
         leftYAxisRenderer.renderAxisLine(context: context)
         rightYAxisRenderer.renderAxisLine(context: context)

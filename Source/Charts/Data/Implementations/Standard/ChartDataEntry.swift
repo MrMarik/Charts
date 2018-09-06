@@ -16,6 +16,11 @@ open class ChartDataEntry: ChartDataEntryBase
     /// the x value
     @objc open var x = Double(0.0)
     
+    /// the xlabel value
+    @objc open var xlabel = String("")
+    
+    @objc open var highlight = Bool(false)
+    
     public required init()
     {
         super.init()

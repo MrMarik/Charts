@@ -129,7 +129,9 @@
     {
         double mult = range;
         double val = (double) (arc4random_uniform(mult)) + 450;
-        [yVals2 addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
+        ChartDataEntry *entry = [[ChartDataEntry alloc] initWithX:i y:val];
+        entry.highlight = i == 2 ? YES : NO;
+        [yVals2 addObject:entry];
     }
     
     for (int i = 0; i < count; i++)
@@ -168,13 +170,16 @@
         set2 = [[LineChartDataSet alloc] initWithValues:yVals2 label:@"DataSet 2"];
         set2.axisDependency = AxisDependencyRight;
         [set2 setColor:UIColor.redColor];
-        [set2 setCircleColor:UIColor.whiteColor];
+        [set2 setCircleColor:UIColor.orangeColor];
+        [set2 setCircleHoleColor:UIColor.whiteColor];
         set2.lineWidth = 2.0;
-        set2.circleRadius = 3.0;
+        set2.circleRadius = 3.5;
+        set2.circleHoleRadius = 3.0;
         set2.fillAlpha = 65/255.0;
         set2.fillColor = UIColor.redColor;
-        set2.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
-        set2.drawCircleHoleEnabled = NO;
+        set2.highlightColor = [UIColor colorWithRed:252/255.f green:145/255.f blue:83/255.f alpha:1.f];
+        set2.drawCircleHoleEnabled = YES;
+
         
         set3 = [[LineChartDataSet alloc] initWithValues:yVals3 label:@"DataSet 3"];
         set3.axisDependency = AxisDependencyRight;

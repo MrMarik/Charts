@@ -41,7 +41,7 @@
     
     if (_chart.visibleXRange > 30 * 6)
     {
-        return [NSString stringWithFormat:@"%@ %@", monthName, yearName];
+        return [NSString stringWithFormat:@"8.1 \n 8.2", monthName, yearName];
     }
     else
     {
@@ -74,7 +74,7 @@
                 break;
         }
         
-        return dayOfMonth == 0 ? @"" : [NSString stringWithFormat:@"%d%@ %@", dayOfMonth, appendix, monthName];
+        return dayOfMonth == 0 ? @"" : [NSString stringWithFormat:@"8-10 \n 至8-18", dayOfMonth, appendix, monthName];
     }
 }
 

@@ -652,7 +652,7 @@ open class LineChartRenderer: LineRadarRenderer
             for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
             {
                 guard let e = dataSet.entryForIndex(j) else { break }
-
+                
                 pt.x = CGFloat(e.x)
                 pt.y = CGFloat(e.y * phaseY)
                 pt = pt.applying(valueToPixelMatrix)
@@ -700,7 +700,7 @@ open class LineChartRenderer: LineRadarRenderer
                 rect.size.width = circleDiameter
                 rect.size.height = circleDiameter
 
-                if drawTransparentCircleHole
+                if drawTransparentCircleHole && e.highlight
                 {
                     // Begin path for circle with hole
                     context.beginPath()
@@ -720,7 +720,7 @@ open class LineChartRenderer: LineRadarRenderer
                 {
                     context.fillEllipse(in: rect)
                     
-                    if drawCircleHole
+                    if drawCircleHole && e.highlight
                     {
                         context.setFillColor(dataSet.circleHoleColor!.cgColor)
                      

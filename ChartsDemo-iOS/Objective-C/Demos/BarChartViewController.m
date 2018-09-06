@@ -68,46 +68,19 @@
     leftAxisFormatter.negativeSuffix = @" $";
     leftAxisFormatter.positiveSuffix = @" $";
     
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    leftAxis.labelCount = 8;
-    leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
-    leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
-    leftAxis.spaceTop = 0.15;
-    leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
+    _chartView.leftAxis.enabled = NO;
+    _chartView.rightAxis.enabled = NO;
     
-    ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.enabled = YES;
-    rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    rightAxis.labelCount = 8;
-    rightAxis.valueFormatter = leftAxis.valueFormatter;
-    rightAxis.spaceTop = 0.15;
-    rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
-    
-    ChartLegend *l = _chartView.legend;
-    l.horizontalAlignment = ChartLegendHorizontalAlignmentLeft;
-    l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
-    l.orientation = ChartLegendOrientationHorizontal;
-    l.drawInside = NO;
-    l.form = ChartLegendFormSquare;
-    l.formSize = 9.0;
-    l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
-    l.xEntrySpace = 4.0;
-    
-    XYMarkerView *marker = [[XYMarkerView alloc]
-                                  initWithColor: [UIColor colorWithWhite:180/255. alpha:1.0]
-                                  font: [UIFont systemFontOfSize:12.0]
-                                  textColor: UIColor.whiteColor
-                                  insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)
-                                  xAxisValueFormatter: _chartView.xAxis.valueFormatter];
-    marker.chartView = _chartView;
-    marker.minimumSize = CGSizeMake(80.f, 40.f);
-    _chartView.marker = marker;
     
     _sliderX.value = 12.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
+    
+    BarChartDataSet *set = (BarChartDataSet *)_chartView.data.dataSets.lastObject;
+    BarChartDataEntry *entry = (BarChartDataEntry *)set.values.lastObject;
+    ChartHighlight *high = [[ChartHighlight alloc] initWithX:entry.x y:entry.y dataSetIndex:_chartView.data.dataSets.count - 1 dataIndex:0];
+    [_chartView highlightValue:high];
+    _chartView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -137,11 +110,15 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
-        if (arc4random_uniform(100) < 25) {
-            [yVals addObject:[[BarChartDataEntry alloc] initWithX:i y:val icon: [UIImage imageNamed:@"icon"]]];
-        } else {
-            [yVals addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
-        }
+        BarChartDataEntry *entry = [[BarChartDataEntry alloc] initWithX:i y:val];
+        [yVals addObject:entry];
+    }
+    
+    //X轴上面需要显示的数据
+    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+    for (int i = start; i < start + count + 1; i++)
+    {
+        [xVals addObject:[NSString stringWithFormat:@"%d月", i+1]];
     }
     
     BarChartDataSet *set1 = nil;
@@ -154,18 +131,16 @@
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"The year 2017"];
-        [set1 setColors:ChartColorTemplates.material];
-        set1.drawIconsEnabled = NO;
+        set1 = [[BarChartDataSet alloc] initWithValues:yVals];
+        [set1 setColors:@[[UIColor colorWithRed:242.0/255.0f green:242.0/255.0f blue:242.0/255.0f alpha:1.0f]]];
+        [set1 setHighlightColor:[UIColor colorWithRed:252.0/255.0f green:145.0/255.0f blue:83.0/255.0f alpha:1.0f]];        set1.drawIconsEnabled = NO;
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         
         BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
-        
-        data.barWidth = 0.9f;
-        
+        data.barWidth = 0.2f;
         _chartView.data = data;
     }
 }

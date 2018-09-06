@@ -315,7 +315,7 @@
     chartView.drawGridBackgroundEnabled = NO;
     
     chartView.dragEnabled = YES;
-    [chartView setScaleEnabled:YES];
+    [chartView setScaleEnabled:NO];
     chartView.pinchZoomEnabled = NO;
     
     // ChartYAxis *leftAxis = chartView.leftAxis;
