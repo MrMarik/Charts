@@ -26,7 +26,7 @@ open class LegendRenderer: Renderer
     {
         super.init(viewPortHandler: viewPortHandler)
         
-        self.legend = legend
+        self.legend = nil
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
